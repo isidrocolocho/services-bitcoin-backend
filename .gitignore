@@ -1,0 +1,18 @@
+// .gitignore
+.DS_Store
+
+.env
+
+.env.*
+
+! .env.example
+
+node_modules/
+
+public/
+
+*.log
+
+log/
+
+package-lock.json
