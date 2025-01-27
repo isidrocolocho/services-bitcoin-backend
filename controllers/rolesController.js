@@ -12,7 +12,7 @@ const getRolesList = async (req= request, res = response)=>{
         where: {
             is_active: true
         },
-        order: [["id", "ASC"]] // Corrección: se especifica el orden como un array de arrays
+        order: [["id", "ASC"]] // Corrección: se categoria el orden como un array de arrays
     });    
     return res.status(200).json(roles);
 };

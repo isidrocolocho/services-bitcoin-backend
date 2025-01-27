@@ -16,7 +16,7 @@ module.exports = {
       {
         id_user: 4,
         id_categoria: 1,
-        id_hospital: 1,
+        id_empresa: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

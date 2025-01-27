@@ -63,15 +63,15 @@ module.exports = {
       },
       { id:7,group:'Tipo Registro', description: 'Grupo para ver permiso de las tipos de registro', is_active:true, createdAt:new Date()},
       { id:8,group:'Dias', description: 'Grupo para ver los permisos de administracion de dias', is_active:true, createdAt:new Date()},
-      { id:9,group:'Especialidades', description: 'Grupos para ver los permisos de administracion de especialidades medicas', is_active:true, createdAt:new Date()},
-      { id:10,group:'Hospitales', description: 'Grupo para ver los permisos de administracion de hospitales', is_active:true, createdAt:new Date()},
-      { id:11,group:'Medicos', description: 'Grupo para ver los permisos de administracion de los medicos', is_active:true, createdAt:new Date()},
+      { id:9,group:'Categorias', description: 'Grupos para ver los permisos de administracion de categiras de empresas', is_active:true, createdAt:new Date()},
+      { id:10,group:'Empresas', description: 'Grupo para ver los permisos de administracion de empresas', is_active:true, createdAt:new Date()},
+      { id:11,group:'Encargados', description: 'Grupo para ver los permisos de administracion de los encargados', is_active:true, createdAt:new Date()},
       { id:12,group:'Horarios de Atencion', description: 'Grupo para ver los permisos de los horarios de atencion ', is_active:true, createdAt:new Date()},
       { id:13,group:'Servicios', description: 'Grupo para ver los permisos de los servicios ', is_active:true, createdAt:new Date()},
       { id:14,group:'Estado Agenda', description: 'Grupo para ver los permisos de los estados de la agenda ', is_active:true, createdAt:new Date()},
       { id:15,group:'Agenda Medica ', description: 'Grupo para ver los permisos de la agenda medica', is_active:true, createdAt:new Date()},
-      { id:16,group:'Menu Medicos', description: 'Grupo de permisos para ver los menus medicos', is_active:true, createdAt:new Date()},
-      { id:17,group:'Menu Pacientes', description: 'Grupo de permisos para ver los menus pacientes', is_active:true, createdAt:new Date()},
+      { id:16,group:'Menu Empresas', description: 'Grupo de permisos para ver los menus empresas', is_active:true, createdAt:new Date()},
+      { id:17,group:'Menu Clientes', description: 'Grupo de permisos para ver los menus clientes', is_active:true, createdAt:new Date()},
     ];
 
     // Insertar datos en la tabla mnt_groups
