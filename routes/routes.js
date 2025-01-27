@@ -12,7 +12,7 @@ const rolesRoutes = require("./rolRoutes");
 const mntTipoRegistroRoutes = require("./mntTipoRegistroRoutes")
 const diaRoutes = require("./diaRoutes")
 const mntEspecialidadRoutes = require("./mntEspecialidadRoutes")
-const mntHospitalRoutes = require("./mntHospitalRoutes")
+const mntEmpresaRoutes = require("./mntEmpresaRoutes")
 const mntMedicoRoutes = require("./mntMedicoRoutes")
 const mntHorarioAtencionRoutes = require("./mntHorarioAtencionRoutes")
 const mntServicioRoutes = require("./mntServicioRoutes")
@@ -33,7 +33,7 @@ app.use("/roles", rolesRoutes);
 app.use("/tipo/registro", mntTipoRegistroRoutes); 
 app.use("/dia", diaRoutes); 
 app.use("/especialidad", mntEspecialidadRoutes); 
-app.use("/hospital", mntHospitalRoutes); 
+app.use("/empresa", mntEmpresaRoutes); 
 app.use("/medico", mntMedicoRoutes); 
 app.use("/horario/atencion", mntHorarioAtencionRoutes); 
 app.use("/servicio", mntServicioRoutes); 
