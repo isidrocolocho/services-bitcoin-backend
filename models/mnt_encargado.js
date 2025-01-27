@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class mnt_medico extends Model {
+  class mnt_encargado extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,24 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.user, {
-        foreignKey: 'id_user',  // Clave foránea en mnt_medicos
+        foreignKey: 'id_user',  // Clave foránea en mnt_encargados
         as: 'user'  // Alias para la relación
       });
 
-      // Relación con la tabla 'mnt_especialidad'
-      this.belongsTo(models.mnt_especialidad, {
-        foreignKey: 'id_especialidad',  // Clave foránea en mnt_medicos
-        as: 'especialidad'  // Alias para la relación
+      // Relación con la tabla 'mnt_categoria'
+      this.belongsTo(models.mnt_categoria, {
+        foreignKey: 'id_categoria',  // Clave foránea en mnt_encargados
+        as: 'categoria'  // Alias para la relación
       });
 
-      // Relación con la tabla 'mnt_hospital'
-      this.belongsTo(models.mnt_hospital, {
-        foreignKey: 'id_hospital',  // Clave foránea en mnt_medicos
-        as: 'hospital'  // Alias para la relación
+      // Relación con la tabla 'mnt_empresa'
+      this.belongsTo(models.mnt_empresa, {
+        foreignKey: 'id_empresa',  // Clave foránea en mnt_encargados
+        as: 'empresa'  // Alias para la relación
       });
     }
   }
-  mnt_medico.init({
+  mnt_encargado.init({
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -43,42 +43,30 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
-    id_especialidad: {
+    id_categoria: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'mnt_especialidades',
+        model: 'mnt_categorias',
         key: 'id',
       },
     },
-    id_hospital: {
+    id_empresa: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'mnt_hospitales',
+        model: 'mnt_empresas',
         key: 'id',
       },
-    },
-    numero_junta: {
-      type: DataTypes.STRING(250),
-      allowNull: true,
-    },
-    precio_consulta: {
-      type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    tiempo_consulta: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
     },
     is_active:{
       type:DataTypes.BOOLEAN,defaultValue:true,
     },
   }, {
     sequelize,
-    modelName: 'mnt_medico',
-    tableName: 'mnt_medicos',
+    modelName: 'mnt_encargado',
+    tableName: 'mnt_encargados',
   });
   
-  return mnt_medico;
+  return mnt_encargado;
 };

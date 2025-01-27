@@ -12,24 +12,18 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('mnt_medicos', [
+    await queryInterface.bulkInsert('mnt_encargados', [
       {
         id_user: 4,
-        id_especialidad: 1,
+        id_categoria: 1,
         id_hospital: 1,
-        numero_junta: 'JUNTA001',
-        precio_consulta: 200.00,
-        tiempo_consulta: 30,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id_user: 5,
-        id_especialidad: 2,
-        id_hospital: 2,
-        numero_junta: 'JUNTA002',
-        precio_consulta: 250.00,
-        tiempo_consulta: 45,
+        id_categoria: 2,
+        id_empresa: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -43,6 +37,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('mnt_medicos', null, {});
+    await queryInterface.bulkDelete('mnt_encargados', null, {});
   }
 };

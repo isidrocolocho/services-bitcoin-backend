@@ -2,13 +2,13 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('mnt_medicos', {
+    await queryInterface.createTable('mnt_encargados', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        comment: 'Identificador único del médico'
+        comment: 'Identificador único del encargado'
       },
       id_user: {
         type: Sequelize.INTEGER,
@@ -17,47 +17,32 @@ module.exports = {
           key: 'id',  // Columna de referencia
         },
         allowNull: false,
-        comment: 'ID del usuario asociado al médico'
+        comment: 'ID del usuario asociado al encargado'
       },
-      id_especialidad: {
+      id_categoria: {
         type: Sequelize.INTEGER,
         allowNull: true,
         defaultValue: null,
         references: {
-          model: 'mnt_especialidades', // Tabla referenciada
+          model: 'mnt_categorias', // Tabla referenciada
           key: 'id', // Columna de referencia
         },
-        comment: 'ID de la especialidad del médico'
+        comment: 'ID de la categoria del encargado'
       },
-      id_hospital: {
+      id_empresa: {
         type: Sequelize.INTEGER,
         allowNull: true,
         defaultValue: null,
         references: {
-          model: 'mnt_hospitales', // Tabla referenciada
+          model: 'mnt_empresas', // Tabla referenciada
           key: 'id', // Columna de referencia
         },
-        comment: 'ID del hospital asociado al médico'
-      },
-      numero_junta: {
-        type: Sequelize.STRING(250), // Definido como varchar(250)
-        allowNull: true,
-        comment: 'Número de la junta médica'
-      },
-      precio_consulta: {
-        type: Sequelize.FLOAT,
-        allowNull: true,
-        comment: 'Precio de la consulta médica'
-      },
-      tiempo_consulta: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        comment: 'Tiempo de duración de la consulta médica (en minutos)'
+        comment: 'ID del empresa asociado al encargado'
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
-        comment: 'Indicates if the medico is active'
+        comment: 'Indicates if the encargado is active'
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -82,10 +67,10 @@ module.exports = {
     });
 
     // Agregar las restricciones de claves foráneas
-    await queryInterface.addConstraint('mnt_medicos', {
+    await queryInterface.addConstraint('mnt_encargados', {
       fields: ['id_user'],
       type: 'foreign key',
-      name: 'fk_mnt_medicos_id_user',
+      name: 'fk_mnt_encargado_id_user',
       references: {
         table: 'users', // Tabla referenciada
         field: 'id', // Columna referenciada
@@ -94,24 +79,24 @@ module.exports = {
       onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addConstraint('mnt_medicos', {
-      fields: ['id_especialidad'],
+    await queryInterface.addConstraint('mnt_encargados', {
+      fields: ['id_categoria'],
       type: 'foreign key',
-      name: 'fk_mnt_medicos_id_especialidad',
+      name: 'fk_mnt_encargado_id_categoria',
       references: {
-        table: 'mnt_especialidades', // Tabla referenciada
+        table: 'mnt_categorias', // Tabla referenciada
         field: 'id', // Columna referenciada
       },
       onDelete: 'RESTRICT',
       onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addConstraint('mnt_medicos', {
-      fields: ['id_hospital'],
+    await queryInterface.addConstraint('mnt_encargados', {
+      fields: ['id_empresa'],
       type: 'foreign key',
-      name: 'fk_mnt_medicos_id_hospital',
+      name: 'fk_mnt_encargado_id_empresa',
       references: {
-        table: 'mnt_hospitales', // Tabla referenciada
+        table: 'mnt_empresas', // Tabla referenciada
         field: 'id', // Columna referenciada
       },
       onDelete: 'RESTRICT',
@@ -119,6 +104,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('mnt_medicos');
+    await queryInterface.dropTable('mnt_encargados');
   }
 };
