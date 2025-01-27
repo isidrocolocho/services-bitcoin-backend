@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('mnt_especialidades', {
+    await queryInterface.createTable('mnt_categorias', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,20 +10,20 @@ module.exports = {
         allowNull: false,
         comment: 'Primary key, auto-incremented',
       },
-      especialidad: {
+      categoria: {
         type: Sequelize.STRING(250),
         allowNull: false,
-        comment: 'Nombre de especialidad medica',
+        comment: 'Nombre de categorias empresa',
       },
       descripcion: {
         type: Sequelize.STRING(500),
         allowNull: true,
-        comment: 'Descripcion de la especialidad medica',
+        comment: 'Descripcion de la categorias empresa',
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
-        comment: 'Validador de la especialidad medica, si es activo o desactivo',
+        comment: 'Validador de la categorias empresa, si es activo o desactivo',
       },
       createdAt: {
         allowNull: false,
@@ -42,11 +42,11 @@ module.exports = {
       },
     },
     {
-      comment: 'Tabla de las especialidades medicas',
+      comment: 'Tabla de las categorias de empresas',
     }
   );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('mnt_especialidades');
+    await queryInterface.dropTable('mnt_categorias');
   }
 };
