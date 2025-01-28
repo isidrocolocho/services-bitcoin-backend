@@ -8,12 +8,12 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        comment: 'ID del servicio médico'
+        comment: 'ID del servicio encargado'
       },
-      id_medico: {
+      id_encargado: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        comment: 'ID del médico que ofrece el servicio',
+        comment: 'ID del encargado que ofrece el servicio',
       },
       servicio: {
         type: Sequelize.STRING(500),
@@ -59,16 +59,16 @@ module.exports = {
       }
     },
     {
-      comment: 'Tabla que almacena la información de los servicios medicos del sistema.' // Comentario para la tabla
+      comment: 'Tabla que almacena la información de los servicios encargado del sistema.' // Comentario para la tabla
     });
 
     // Agregar claves foráneas
     await queryInterface.addConstraint('mnt_servicios', {
-      fields: ['id_medico'],
+      fields: ['id_encargado'],
       type: 'foreign key',
-      name: 'fk_mnt_servicios_id_medico',
+      name: 'fk_mnt_servicios_id_encargado',
       references: {
-        table: 'mnt_medicos', // Tabla referenciada
+        table: 'mnt_encargados', // Tabla referenciada
         field: 'id', // Columna referenciada
       },
       onDelete: 'RESTRICT',

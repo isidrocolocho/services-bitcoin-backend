@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(sequelize.models.mnt_medico, {
-        foreignKey: 'id_medico',
-        as: 'medico',
+      this.belongsTo(sequelize.models.mnt_encargado, {
+        foreignKey: 'id_encargado',
+        as: 'encargado',
       });
     
     }
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    id_medico: {
+    id_encargado: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

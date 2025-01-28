@@ -1,14 +1,14 @@
-const { mnt_servicio, mnt_medico } = require('../models/index');
+const { mnt_servicio, mnt_encargado } = require('../models/index');
 const { request, response } = require('express');
 const { notFoundResponse, conflictResponse } = require('../utils/responseUtils');
 const { ValidationError } = require('sequelize');
 
-// Obtener la lista de servicios médicos
+// Obtener la lista de servicios encargados
 const getServiciosList = async (req = request, res = response) => {
     try {
         const servicios = await mnt_servicio.findAll({
             include: [
-                { model: mnt_medico, as: 'medico' }, // Incluir médico relacionado
+                { model: mnt_encargado, as: 'encargado' }, // Incluir encargado relacionado
             ],
             order: [["id", "ASC"]],
         });
@@ -19,14 +19,14 @@ const getServiciosList = async (req = request, res = response) => {
     }
 };
 
-// Obtener un servicio médico por su ID
+// Obtener un servicio encargado por su ID
 const getServicioById = async (req = request, res = response) => {
     const id = req.params.id;
     try {
         const servicio = await mnt_servicio.findOne({
             where: { id: id },
             include: [
-                { model: mnt_medico, as: 'medico' },
+                { model: mnt_encargado, as: 'encargado' },
             ],
         });
 
@@ -39,12 +39,12 @@ const getServicioById = async (req = request, res = response) => {
     }
 };
 
-// Crear un nuevo servicio médico
+// Crear un nuevo servicio encargado
 const crearServicio = async (req = request, res = response) => {
-    const { id_medico, servicio, descripcion, foto_servicio, precio_servicio } = req.body;
+    const { id_encargado, servicio, descripcion, foto_servicio, precio_servicio } = req.body;
     try {
         const servicioCreado = await mnt_servicio.create({
-            id_medico,
+            id_encargado,
             servicio,
             descripcion,
             foto_servicio,
@@ -59,9 +59,9 @@ const crearServicio = async (req = request, res = response) => {
     }
 };
 
-// Actualizar información de un servicio médico
+// Actualizar información de un servicio encargado
 const updateServicio = async (req = request, res = response) => {
-    const { id_medico, servicio, descripcion, foto_servicio, precio_servicio } = req.body;
+    const { id_encargado, servicio, descripcion, foto_servicio, precio_servicio } = req.body;
     const id = req.params.id;
 
     const servicioExistente = await mnt_servicio.findByPk(id);
@@ -70,7 +70,7 @@ const updateServicio = async (req = request, res = response) => {
     }
 
     // Actualizar campos si se proporcionan
-    if (id_medico !== undefined) servicioExistente.id_medico = id_medico;
+    if (id_encargado !== undefined) servicioExistente.id_encargado = id_encargado;
     if (servicio !== undefined) servicioExistente.servicio = servicio;
     if (descripcion !== undefined) servicioExistente.descripcion = descripcion;
     if (foto_servicio !== undefined) servicioExistente.foto_servicio = foto_servicio;
@@ -80,7 +80,7 @@ const updateServicio = async (req = request, res = response) => {
     return res.status(200).json(servicioExistente);
 };
 
-// Eliminar un servicio médico (soft delete)
+// Eliminar un servicio encargado (soft delete)
 const deleteServicio = async (req = request, res = response) => {
     const id = req.params.id;
     const servicio = await mnt_servicio.findOne({
@@ -97,7 +97,7 @@ const deleteServicio = async (req = request, res = response) => {
     return res.status(200).json({ message: 'Servicio eliminado correctamente' });
 };
 
-// Activar un servicio médico
+// Activar un servicio encargado
 const activarServicio = async (req = request, res = response) => {
     const id = req.params.id;
     const servicio = await mnt_servicio.findOne({
