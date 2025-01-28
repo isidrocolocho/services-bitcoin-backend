@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Relación con la tabla 'mnt_medicos'
-      this.belongsTo(sequelize.models.mnt_medico, {
-        foreignKey: 'id_medico',
-        as: 'medico',
+      // Relación con la tabla 'mnt_encargados'
+      this.belongsTo(sequelize.models.mnt_encargado, {
+        foreignKey: 'id_encargado',
+        as: 'encargado',
       });
 
       // Relación con la tabla 'ctl_dias'
@@ -25,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   mnt_horario_atencion.init({
-    id_medico: {
+    id_encargado: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'mnt_medico', // Cambiar a la tabla correcta si es diferente
+        model: 'mnt_encargado', // Cambiar a la tabla correcta si es diferente
         key: 'id',
       },
     },

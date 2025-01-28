@@ -1,4 +1,4 @@
-const { mnt_horario_atencion, mnt_medico, ctl_dia } = require('../models/index');
+const { mnt_horario_atencion, mnt_encargado, ctl_dia } = require('../models/index');
 const { request, response } = require('express');
 const { notFoundResponse, conflictResponse } = require('../utils/responseUtils');
 const { ValidationError } = require('sequelize');
@@ -8,7 +8,7 @@ const getHorariosAtencionList = async (req = request, res = response) => {
     try {
         const horariosAtencion = await mnt_horario_atencion.findAll({
             include: [
-                { model: mnt_medico, as: 'medico' },
+                { model: mnt_encargado, as: 'encargado' },
                 { model: ctl_dia, as: 'dia' },
             ],
             order: [["id", "ASC"]],
@@ -28,7 +28,7 @@ const getHorarioAtencionById = async (req = request, res = response) => {
                 id: id,
             },
             include: [
-                { model: mnt_medico, as: 'medico' },
+                { model: mnt_encargado, as: 'encargado' },
                 { model: ctl_dia, as: 'dia' },
             ],
         });
@@ -44,10 +44,10 @@ const getHorarioAtencionById = async (req = request, res = response) => {
 
 // Crear un nuevo horario de atención
 const crearHorarioAtencion = async (req = request, res = response) => {
-    const { id_medico, id_dia, hora_inicio, hora_fin } = req.body;
+    const { id_encargado, id_dia, hora_inicio, hora_fin } = req.body;
     try {
         const horarioAtencion = await mnt_horario_atencion.create({
-            id_medico,
+            id_encargado,
             id_dia,
             hora_inicio,
             hora_fin,
@@ -60,7 +60,7 @@ const crearHorarioAtencion = async (req = request, res = response) => {
 
 // Actualizar información de un horario de atención
 const updateHorarioAtencion = async (req = request, res = response) => {
-    const { id_medico, id_dia, hora_inicio, hora_fin } = req.body;
+    const { id_encargado, id_dia, hora_inicio, hora_fin } = req.body;
     const id = req.params.id;
 
     const horarioAtencion = await mnt_horario_atencion.findByPk(id);
@@ -69,8 +69,8 @@ const updateHorarioAtencion = async (req = request, res = response) => {
     }
 
     // Actualizar campos si se proporcionan
-    if (id_medico !== undefined) {
-        horarioAtencion.id_medico = id_medico;
+    if (id_encargado !== undefined) {
+        horarioAtencion.id_encargado = id_encargado;
     }
     if (id_dia !== undefined) {
         horarioAtencion.id_dia = id_dia;
