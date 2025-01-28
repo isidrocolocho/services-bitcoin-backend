@@ -6,7 +6,7 @@ const {
     crearAgenda,
     updateAgenda,
     deleteAgenda,
-} = require("../controllers/mntAgendaController");
+} = require("../controllers/mntAgendaCarritoController");
 
 const authMiddleware = require("../middlewares/authMiddleware");
 

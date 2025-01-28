@@ -12,40 +12,34 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('mnt_agenda_medicas', [
+    await queryInterface.bulkInsert('mnt_agenda_carritos', [
       {
-        id_medico: 1,
+        id_encargado: 1,
         id_user: 2,
         id_estado_agenda: 1,
-        fecha_hora_consulta: new Date('2025-01-20T10:00:00Z'),
+        fecha_hora_inicio: new Date('2025-01-20T10:00:00Z'),
         fecha_hora_fin: new Date('2025-01-20T10:30:00Z'),
-        descripcion: 'Consulta general sobre dolor de cabeza',
-        diagnostico: 'Migraña crónica',
-        receta: 'Paracetamol 500mg cada 8 horas',
-        valoracion: 4.5,
-        comentario: 'Buena atención',
+        descripcion: 'Compra de productos para limpieza de hogar',
+        conclusion: 'Cliente satisfecho con los productos seleccionados',
         id_estado_pago: 1,
-        sub_total: 50.0,
-        descuento: 5.0,
-        total: 45.0,
+        sub_total: 100.0,
+        descuento: 10.0,
+        total: 90.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        id_medico: 2,
+        id_encargado: 2,
         id_user: 4,
         id_estado_agenda: 2,
-        fecha_hora_consulta: new Date('2025-01-21T15:00:00Z'),
+        fecha_hora_inicio: new Date('2025-01-21T15:00:00Z'),
         fecha_hora_fin: new Date('2025-01-21T15:45:00Z'),
-        descripcion: 'Control de presión arterial',
-        diagnostico: 'Hipertensión leve',
-        receta: 'Losartán 50mg al día',
-        valoracion: 4.8,
-        comentario: 'El médico fue muy amable',
+        descripcion: 'Asesoría para compra de herramientas de jardinería',
+        conclusion: 'Se recomendó el kit básico de jardinería',
         id_estado_pago: 2,
-        sub_total: 60.0,
-        descuento: 10.0,
-        total: 50.0,
+        sub_total: 200.0,
+        descuento: 20.0,
+        total: 180.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -59,6 +53,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('mnt_agenda_medicas', null, {});
+    await queryInterface.bulkDelete('mnt_agenda_carritos', null, {});
   }
 };

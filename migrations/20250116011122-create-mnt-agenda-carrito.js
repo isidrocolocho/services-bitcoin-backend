@@ -2,18 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('mnt_agenda_medicas', {
+    await queryInterface.createTable('mnt_agenda_carritos', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        comment: 'Identificador único de la agenda médica',
+        comment: 'Identificador único de la agenda y carrito',
       },
-      id_medico: {
+      id_encargado: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        comment: 'Clave foránea que referencia al médico en la tabla mnt_medicos',
+        comment: 'Clave foránea que referencia al encargado en la tabla mnt_encargados',
       },
       id_user: {
         type: Sequelize.INTEGER,
@@ -23,9 +23,9 @@ module.exports = {
       id_estado_agenda: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        comment: 'Clave foránea que referencia al estado de la agenda médica',
+        comment: 'Clave foránea que referencia al estado de la agenda y carrito',
       },
-      fecha_hora_consulta: {
+      fecha_hora_inicio: {
         type: Sequelize.DATE,
         allowNull: false,
         comment: 'Fecha y hora de inicio de la consulta',
@@ -40,25 +40,10 @@ module.exports = {
         allowNull: true,
         comment: 'Descripción breve de la consulta',
       },
-      diagnostico: {
+      conclusion: {
         type: Sequelize.TEXT,
         allowNull: true,
-        comment: 'Diagnóstico médico realizado durante la consulta',
-      },
-      receta: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: 'Receta médica proporcionada al paciente',
-      },
-      valoracion: {
-        type: Sequelize.FLOAT,
-        allowNull: true,
-        comment: 'Valoración de la consulta realizada',
-      },
-      comentario: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: 'Comentario adicional sobre la consulta',
+        comment: 'Conclusion y carrito proporcionada al',
       },
       id_estado_pago: {
         type: Sequelize.INTEGER,
@@ -99,26 +84,26 @@ module.exports = {
       },
     },
     {
-      comment: 'Tabla que almacena los la agenda medica de todos los medicos',
+      comment: 'Tabla que almacena los la agenda y carrito de todos los encargados',
     });
 
     // Agregar las restricciones de claves foráneas
-    await queryInterface.addConstraint('mnt_agenda_medicas', {
-      fields: ['id_medico'],
+    await queryInterface.addConstraint('mnt_agenda_carritos', {
+      fields: ['id_encargado'],
       type: 'foreign key',
-      name: 'fk_mnt_agenda_medicas_id_medico',
+      name: 'fk_mnt_agenda_carritos_id_encargado',
       references: {
-        table: 'mnt_medicos',
+        table: 'mnt_encargados',
         field: 'id',
       },
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addConstraint('mnt_agenda_medicas', {
+    await queryInterface.addConstraint('mnt_agenda_carritos', {
       fields: ['id_user'],
       type: 'foreign key',
-      name: 'fk_mnt_agenda_medicas_id_user',
+      name: 'fk_mnt_agenda_carritos_id_user',
       references: {
         table: 'users',
         field: 'id',
@@ -127,10 +112,10 @@ module.exports = {
       onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addConstraint('mnt_agenda_medicas', {
+    await queryInterface.addConstraint('mnt_agenda_carritos', {
       fields: ['id_estado_agenda'],
       type: 'foreign key',
-      name: 'fk_mnt_agenda_medicas_id_estado_agenda',
+      name: 'fk_mnt_agenda_carritos_id_estado_agenda',
       references: {
         table: 'ctl_estado_agendas',
         field: 'id',
@@ -139,10 +124,10 @@ module.exports = {
       onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addConstraint('mnt_agenda_medicas', {
+    await queryInterface.addConstraint('mnt_agenda_carritos', {
       fields: ['id_estado_pago'],
       type: 'foreign key',
-      name: 'fk_mnt_agenda_medicas_id_estado_pago',
+      name: 'fk_mnt_agenda_carritos_id_estado_pago',
       references: {
         table: 'ctl_estado_pagos',
         field: 'id',
@@ -152,6 +137,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('mnt_agenda_medicas');
+    await queryInterface.dropTable('mnt_agenda_carritos');
   }
 };

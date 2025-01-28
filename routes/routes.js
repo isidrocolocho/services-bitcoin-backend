@@ -17,7 +17,7 @@ const mntEncargadoRoutes = require("./mntEncargadoRoutes")
 const mntHorarioAtencionRoutes = require("./mntHorarioAtencionRoutes")
 const mntBienRoutes = require("./mntBienRoutes")
 const ctlEstadoAgendaRoutes = require("./ctlEstadoAgendaRoutes")
-const mntAgendaRoutes = require("./mntAgendaRoutes")
+const mntAgendaCarritoRoutes = require("./mntAgendaCarritoRoutes")
 
 
 const app = express();
@@ -38,7 +38,7 @@ app.use("/encargado", mntEncargadoRoutes);
 app.use("/horario/atencion", mntHorarioAtencionRoutes); 
 app.use("/bienes", mntBienRoutes); 
 app.use("/estado/agenda", ctlEstadoAgendaRoutes); 
-app.use("/agenda", mntAgendaRoutes); 
+app.use("/accion", mntAgendaCarritoRoutes); 
 
 
 app.get('*',(req, res) => 
