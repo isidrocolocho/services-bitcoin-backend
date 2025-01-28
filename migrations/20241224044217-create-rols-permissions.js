@@ -35,6 +35,11 @@ module.exports = {
           type: Sequelize.DATE,
           comment: 'Timestamp for when the record was created'
         },
+        updatedAt: {
+          allowNull: true,
+          type: Sequelize.DATE,
+          comment: 'Timestamp for when the record was udpate'
+        },
         deletedAt: {
           allowNull: true,
           type: Sequelize.DATE,

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { user, mnt_encargado, permissions, rol, rol_permission, mnt_route } = require("../models/index");
+const { user, mnt_encargado, permission, rol, rol_permission, mnt_route } = require("../models/index");
 const {
     generateAccessToken,
     generateRefreshToken,
@@ -150,56 +150,68 @@ const logout = async (req, res) => {
 
 const getMenu = async (req, res) => {
     try {
-      const userId = 4; // Suponemos que `req.user` contiene al usuario autenticado
-      const user = await user.findByPk(userId, {
+      const userId = 1; // Suponemos que `req.user` contiene al usuario autenticado
+      const usuario = await user.findByPk(userId, {
         include: [
           {
-            model: rol,
-            include: {
-              model: permissions,
-            },
-          },
-        ],
+            model: rol, as : 'roles',
+            include: [
+              {
+                model: permission, as : 'permissions',
+                through: { attributes: [] }, // Para evitar incluir la tabla intermedia
+                
+              }
+            ]
+          }
+        ]
       });
-  
+
       let permissionsID = [];
-  
+      //console.log(usuario);
+      
+
       // Obtener permisos según el rol del usuario
-      if (user.rol.some((rol) => rol.id === 1)) {
-        const permissions = await permissions.findAll();
-        permissionsID = permissions.map((permission) => permission.id);
-      } else {
-        permissionsID = user.rol.flatMap((rol) => rol.permissions.map((permission) => permission.id));
+      if (usuario.roles && usuario.roles.some((rol) => rol.id === 1)) {
+        const allPermissions = await permission.findAll();
+        permissionsID = allPermissions.map((permission) => permission.id);
+      } else if (usuario.roles) {
+        permissionsID = usuario.roles.flatMap((rol) => rol.permissions.map((permission) => permission.id));
       }
-  
+      console.log(permissionsID);
+      
       // Consultar rutas principales
       const routes = await mnt_route.findAll({
         where: {
-            id_permission: permissionsID,
-            deleted_at: null,
+          id_permission: permissionsID,
+          deletedAt: null,
         },
         include: {
           model: mnt_route,
           as: 'children',
         },
       });
-  
+      //console.log(routes);
+      
       // Filtrar rutas padres con hijos accesibles
       const rutasPadres = await mnt_route.findAll({
         where: {
-          parent_id: null,
-          deleted_at: null,
+          id_ruta_padre: null,
+          deletedAt: null,
           id_permission: permissionsID,
         },
         include: {
           model: mnt_route,
           as: 'children',
+          required: false, // Incluir rutas padres aunque no tengan hijos
           where: {
             id: routes.map((route) => route.id),
           },
         },
       });
-  
+
+      //console.log(rutasPadres);
+      
+
       return res.json({
         routes: rutasPadres,
       });

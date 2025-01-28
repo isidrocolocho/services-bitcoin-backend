@@ -11,51 +11,67 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      this.hasMany(models.mnt_route, {
+        foreignKey: 'id_ruta_padre',
+        as: 'children',
+      });
     }
   }
   mnt_route.init({
     id: {
       type: DataTypes.INTEGER,
-      primaryKey:true,
+      primaryKey: true,
       allowNull: false,
-      autoIncrement:true,
+      autoIncrement: true
     },
-    id_permission:{
+    id_permission: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references:{
+      references: {
         model: 'permissions',
         key: 'id'
       }
     },
-    path: {
-      type:DataTypes.STRING,allowNull: false,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    router: {
-      type:DataTypes.STRING,allowNull: false,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    path: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     icon: {
-      type:DataTypes.STRING,allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    description:{
-      type:DataTypes.STRING,allowNull: false,
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    orden:{
-      type:DataTypes.INTEGER,allowNull: false,
-    },
-    id_ruta_padre:{
+    orden: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references:{
+      allowNull: false
+    },
+    id_ruta_padre: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
         model: 'mnt_routes',
         key: 'id'
       }
     },
-    visible:{
-      type:DataTypes.BOOLEAN,defaultValue:true,
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     },
-    is_active:{
-      type:DataTypes.BOOLEAN,defaultValue:true,
+    visible: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     },
   }, {
     sequelize,

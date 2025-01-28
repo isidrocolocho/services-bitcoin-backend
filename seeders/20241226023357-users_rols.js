@@ -16,6 +16,9 @@ module.exports = {
       { id:1,id_user:1, id_rol: 1, createdAt: new Date()},
       { id:2,id_user:2, id_rol: 2, createdAt: new Date()},
       { id:3,id_user:3, id_rol: 3, createdAt: new Date()},
+      { id:4,id_user:4, id_rol: 4, createdAt: new Date()},
+      { id:5,id_user:5, id_rol: 4, createdAt: new Date()},
+      { id:6,id_user:6, id_rol: 5, createdAt: new Date()},
     ];
     await queryInterface.bulkInsert('users_rols', userRolData, {});
   },

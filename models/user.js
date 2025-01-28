@@ -19,6 +19,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_tipo_registro',
         as: 'tipoRegistro'
       });
+
+       // Relación con roles
+      this.belongsToMany(models.rol, {
+        through: models.user_rol, // Tabla intermedia, ajusta según tu base de datos
+        foreignKey: 'id_user',
+        otherKey: 'id_rol',
+        as: 'roles',
+      });
+
+      // Relación con permisos a través de roles
+      this.belongsToMany(models.permission, {
+        through: models.rol_permission, // Tabla intermedia, ajusta según tu base de datos
+        foreignKey: 'id_rol',
+        otherKey: 'id_permission',
+        as: 'permissions',
+      });
       // this.hasMany(models.permissions, {
       //   through: models.rol_permission,
       //   sourceKey: 'id',
