@@ -37,7 +37,7 @@ module.exports = {
       },
       cantidad: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         comment: 'cantidad en caso de se producto',
       },
       precio: {
