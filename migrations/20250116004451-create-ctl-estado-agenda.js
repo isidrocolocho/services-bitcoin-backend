@@ -39,7 +39,7 @@ module.exports = {
       },
     },
     {
-      comment: 'Tabla que almacena la información de los estados de la agenda de los medicos del sistema.' // Comentario para la tabla
+      comment: 'Tabla que almacena la información de los estados de la agenda de los encargados de empresa del sistema.' // Comentario para la tabla
     });
 
   },

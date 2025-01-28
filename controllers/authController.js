@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { user, mnt_medico, permissions, rol, rol_permission, mnt_route } = require("../models/index");
+const { user, mnt_encargado, permissions, rol, rol_permission, mnt_route } = require("../models/index");
 const {
     generateAccessToken,
     generateRefreshToken,
@@ -42,7 +42,7 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-    const { username, email, password, nombres, apellido,tipo_registro, numero_junta } = req.body;
+    const { username, email, password, nombres, apellido,tipo_registro } = req.body;
     try {
         // Verificar si el email ya existe
         const existingUser = await user.findOne({ where: { email } });
@@ -62,9 +62,8 @@ const register = async (req, res) => {
             tipo_registro
         });
         if (tipo_registro==2) {
-            const newDoctor = await mnt_medico.create({
+            const newEncargado = await mnt_encargado.create({
                 id_user:newUser.id,
-                numero_junta
             });
         }
         

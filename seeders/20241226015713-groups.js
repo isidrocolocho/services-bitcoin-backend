@@ -69,7 +69,7 @@ module.exports = {
       { id:12,group:'Horarios de Atencion', description: 'Grupo para ver los permisos de los horarios de atencion ', is_active:true, createdAt:new Date()},
       { id:13,group:'Servicios', description: 'Grupo para ver los permisos de los servicios ', is_active:true, createdAt:new Date()},
       { id:14,group:'Estado Agenda', description: 'Grupo para ver los permisos de los estados de la agenda ', is_active:true, createdAt:new Date()},
-      { id:15,group:'Agenda Medica ', description: 'Grupo para ver los permisos de la agenda medica', is_active:true, createdAt:new Date()},
+      { id:15,group:'Agenda Empresa ', description: 'Grupo para ver los permisos de la agenda empresa', is_active:true, createdAt:new Date()},
       { id:16,group:'Menu Empresas', description: 'Grupo de permisos para ver los menus empresas', is_active:true, createdAt:new Date()},
       { id:17,group:'Menu Clientes', description: 'Grupo de permisos para ver los menus clientes', is_active:true, createdAt:new Date()},
     ];

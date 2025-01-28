@@ -13,7 +13,7 @@ module.exports = {
       tipo_registro: {
         type: Sequelize.STRING(250),
         allowNull: false,
-        comment: 'Tipo del registro, por ejemplo: Admin, Médico, Paciente.',
+        comment: 'Tipo del registro, por ejemplo: Admin, Empresa, Cliente.',
       },
       descripcion: {
         type: Sequelize.STRING(250),

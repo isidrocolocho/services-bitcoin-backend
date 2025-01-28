@@ -14,7 +14,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('mnt_horario_atenciones', [
       {
-        id_encargado: 1, // Asegúrate de que los IDs de los médicos existan
+        id_encargado: 1, // Asegúrate de que los IDs de los encargado existan
         id_dia: 1, // Asegúrate de que los IDs de los días existan
         hora_inicio: '08:00:00',
         hora_fin: '12:00:00',

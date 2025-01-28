@@ -63,7 +63,7 @@ module.exports = {
       }
     },
     {
-      comment: 'Tabla que almacena la información de los médicos del sistema.' // Comentario para la tabla
+      comment: 'Tabla que almacena la información de los encargados del sistema.' // Comentario para la tabla
     });
 
     // Agregar las restricciones de claves foráneas
