@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class mnt_servicio extends Model {
+  class mnt_bien extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -15,10 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_encargado',
         as: 'encargado',
       });
+      this.belongsTo(sequelize.models.ctl_tipo, {
+        foreignKey: 'id_tipo',
+        as: 'tipo',
+      });
     
     }
   }
-  mnt_servicio.init({
+  mnt_bien.init({
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    servicio: {
+    id_tipo: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    nombre: {
       type: DataTypes.STRING(500),
       allowNull: false,
     },
@@ -37,11 +45,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(500),
       allowNull: false,
     },
-    foto_servicio: {
+    foto: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    precio_servicio: {
+    cantidad: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    precio: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
@@ -51,8 +63,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'mnt_servicio',
-    tableName: 'mnt_servicios',
+    modelName: 'mnt_bien',
+    tableName: 'mnt_bienes',
   });
-  return mnt_servicio;
+  return mnt_bien;
 };

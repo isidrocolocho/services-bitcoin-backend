@@ -2,55 +2,65 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('mnt_servicios', {
+    await queryInterface.createTable('mnt_bienes', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        comment: 'ID del servicio encargado'
+        comment: 'ID del bienes encargado'
       },
       id_encargado: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        comment: 'ID del encargado que ofrece el servicio',
+        comment: 'ID del encargado que ofrece el bienes',
       },
-      servicio: {
+      id_tipo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: 'ID del tipo de bienes',
+      },
+      nombre: {
         type: Sequelize.STRING(500),
         allowNull: false,
-        comment: 'Nombre o descripción del servicio',
+        comment: 'Nombre o descripción de los bienes',
       },
       descripcion: {
         type: Sequelize.STRING(500),
         allowNull: false,
-        comment: 'Descripción adicional del servicio',
+        comment: 'Descripción adicional del bienes',
       },
-      foto_servicio: {
+      foto: {
         type: Sequelize.TEXT,
         allowNull: true,
-        comment: 'Foto representativa del servicio',
+        comment: 'Foto representativa',
       },
-      precio_servicio: {
+      cantidad: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: 'cantidad en caso de se producto',
+      },
+      precio: {
         type: Sequelize.FLOAT,
         allowNull: false,
-        comment: 'Precio del servicio',
+        comment: 'Precio del bien',
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
-        comment: 'Indica si el servicio está activo',
+        comment: 'Indica si el bienes está activo',
       },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        comment: 'Fecha de creación del servicio',
+        comment: 'Fecha de creación del bienes',
       },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        comment: 'Fecha de última actualización del servicio',
+        comment: 'Fecha de última actualización del bienes',
       },
       deletedAt: {
         allowNull: true,
@@ -59,14 +69,14 @@ module.exports = {
       }
     },
     {
-      comment: 'Tabla que almacena la información de los servicios encargado del sistema.' // Comentario para la tabla
+      comment: 'Tabla que almacena la información de los bienes encargado del sistema.' // Comentario para la tabla
     });
 
     // Agregar claves foráneas
-    await queryInterface.addConstraint('mnt_servicios', {
+    await queryInterface.addConstraint('mnt_bienes', {
       fields: ['id_encargado'],
       type: 'foreign key',
-      name: 'fk_mnt_servicios_id_encargado',
+      name: 'fk_mnt_bienes_id_encargado',
       references: {
         table: 'mnt_encargados', // Tabla referenciada
         field: 'id', // Columna referenciada
@@ -74,8 +84,19 @@ module.exports = {
       onDelete: 'RESTRICT',
       onUpdate: 'CASCADE',
     });
+    await queryInterface.addConstraint('mnt_bienes', {
+      fields: ['id_tipo'],
+      type: 'foreign key',
+      name: 'fk_mnt_bienes_id_tipo',
+      references: {
+        table: 'ctl_tipos', // Tabla referenciada
+        field: 'id', // Columna referenciada
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'CASCADE',
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('mnt_servicios');
+    await queryInterface.dropTable('mnt_bienes');
   }
 };

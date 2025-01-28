@@ -12,57 +12,67 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('mnt_servicios', [
+    await queryInterface.bulkInsert('mnt_bienes', [
       {
         id_encargado: 1,
-        servicio: 'Desarrollo de Software',
+        id_tipo: 1, // Servicio
+        nombre: 'Desarrollo de Software',
         descripcion: 'Creación de aplicaciones personalizadas para negocios.',
-        foto_servicio: 'url_a_foto_software.jpg',
-        precio_servicio: 2500.00,
+        foto: 'url_a_foto_software.jpg',
+        cantidad: null,
+        precio: 2500.00,
         is_active: true,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id_encargado: 1,
-        servicio: 'Diseño Gráfico',
+        id_tipo: 1, // Servicio
+        nombre: 'Diseño Gráfico',
         descripcion: 'Servicios de diseño para marcas, logos y materiales publicitarios.',
-        foto_servicio: 'url_a_foto_diseno.jpg',
-        precio_servicio: 1200.00,
+        foto: 'url_a_foto_diseno.jpg',
+        cantidad: null,
+        precio: 1200.00,
         is_active: true,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id_encargado: 1,
-        servicio: 'Consultoría Empresarial',
+        id_tipo: 1, // Servicio
+        nombre: 'Consultoría Empresarial',
         descripcion: 'Asesoramiento estratégico para mejorar procesos y productividad.',
-        foto_servicio: 'url_a_foto_consultoria.jpg',
-        precio_servicio: 3000.00,
+        foto: 'url_a_foto_consultoria.jpg',
+        cantidad: null,
+        precio: 3000.00,
         is_active: true,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id_encargado: 1,
-        servicio: 'Marketing Digital',
-        descripcion: 'Gestión de redes sociales y estrategias de posicionamiento online.',
-        foto_servicio: 'url_a_foto_marketing.jpg',
-        precio_servicio: 1800.00,
+        id_tipo: 2, // Producto
+        nombre: 'Laptop Profesional',
+        descripcion: 'Computadora portátil de alto rendimiento.',
+        foto: 'url_a_foto_laptop.jpg',
+        cantidad: 50, // Solo para productos
+        precio: 1500.00,
         is_active: true,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id_encargado: 1,
-        servicio: 'Producción Audiovisual',
-        descripcion: 'Creación de contenido multimedia para campañas publicitarias.',
-        foto_servicio: 'url_a_foto_produccion.jpg',
-        precio_servicio: 4000.00,
+        id_tipo: 2, // Producto
+        nombre: 'Mouse Inalámbrico',
+        descripcion: 'Mouse ergonómico con conectividad Bluetooth.',
+        foto: 'url_a_foto_mouse.jpg',
+        cantidad: 200, // Solo para productos
+        precio: 25.00,
         is_active: true,
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     ]);
   },
 
@@ -73,6 +83,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('mnt_servicios', null, {});
+    await queryInterface.bulkDelete('mnt_bienes', null, {});
   }
 };
