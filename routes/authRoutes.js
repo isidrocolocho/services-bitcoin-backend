@@ -5,15 +5,17 @@ const {
     refreshAccessToken, 
     logout, 
     getMenu,
-    getPermisos
+    getPermisos,
+    getUsuario
 } = require("../controllers/authController"); 
 
 const router = express.Router(); 
 router.post("/register", register); 
 router.post("/login", login); 
-router.post("/refresh-token", refreshAccessToken); 
-router.post("/logout", logout); 
+router.get("/refresh-token", refreshAccessToken); 
+router.get("/logout", logout); 
 router.get("/menu", getMenu); 
-router.post("/permisos", getPermisos); 
+router.get("/permisos", getPermisos); 
+router.get("/usuario", getUsuario); 
 
 module.exports = router; 

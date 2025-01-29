@@ -21,6 +21,14 @@ if (config.use_env_variable) {
   });
 }
 
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const store = new SequelizeStore({ db: sequelize });
+
+// Sincroniza el modelo de sesión con la base de datos
+store.sync();
+
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -44,5 +52,6 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.store = store; 
 
 module.exports = db;

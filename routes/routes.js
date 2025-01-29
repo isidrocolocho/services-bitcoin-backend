@@ -1,4 +1,7 @@
 const express = require('express');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const { sequelize, store } = require('../models'); // Importa la instancia de Sequelize y la tienda de sesiones
 const logger = require('morgan');
 const bodyParser = require('body-parser')
 const cors = require("cors");
@@ -21,6 +24,22 @@ const mntAgendaCarritoRoutes = require("./mntAgendaCarritoRoutes")
 
 
 const app = express();
+
+// Configuración de la sesión
+app.use(session({
+    secret: process.env.PORT, // Cambia esto por una cadena secreta segura
+    resave: false,
+    saveUninitialized: false,
+    store: new SequelizeStore({
+      db: sequelize,
+    }),
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    }
+  }));
+
+
+// Resto de tu configuración de Express
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
