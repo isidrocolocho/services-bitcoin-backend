@@ -27,16 +27,16 @@ const app = express();
 
 // Configuración de la sesión
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Cambia esto por una cadena secreta segura
-    resave: false,
-    saveUninitialized: false,
-    store: new SequelizeStore({
-      db: sequelize,
-    }),
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000 // 24 horas
-    }
-  }));
+  secret: process.env.SESSION_SECRET, // Cambia esto por una cadena secreta segura
+  resave: false,
+  saveUninitialized: false,
+  store: store, // Usa la tienda de sesiones exportada
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    secure: false, // Asegúrate de que esto esté configurado correctamente para tu entorno
+    httpOnly: true
+  }
+}));
 
 
 // Resto de tu configuración de Express

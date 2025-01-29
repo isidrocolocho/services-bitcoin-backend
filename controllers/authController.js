@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { user, mnt_encargado, permission, rol, rol_permission, mnt_route } = require("../models/index");
 const {
     generateAccessToken,
-    generateRefreshToken,
+    generaterefresh_token,
 } = require("../utils/jwtUtils");
 
 const login = async (req, res) => {
@@ -23,24 +23,27 @@ const login = async (req, res) => {
 
       // Generar tokens
       const accessToken = generateAccessToken({ id: usuario.id, email: usuario.email });
-      const refreshToken = generateRefreshToken({ id: usuario.id, email: usuario.email });
+      const refresh_token = generaterefresh_token({ id: usuario.id, email: usuario.email });
 
-      // Guardar el refreshToken en la base de datos
-      await usuario.update({ token: refreshToken });
+      // Guardar el refresh_token en la base de datos
+      await usuario.update({ token: refresh_token });
 
       // Guardar datos en la sesión
       req.session.user = {
           id: usuario.id,
           email: usuario.email,
-          refreshToken,
+          token: refresh_token,
       };
+      const data =  {
+        token:  refresh_token,
+        refresh_token,
+      }
       req.session.save((err) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: "Error al guardar la sesión" });
         }
-        console.log(req.session.user);
-        return res.json({ message: "Inicio de sesión exitoso", accessToken });
+        return res.json(data);
       });
   } catch (error) {
       console.error(error);
@@ -76,21 +79,21 @@ const register = async (req, res) => {
 
       // Generar tokens
       const accessToken = generateAccessToken({ id: newUser.id, email: newUser.email });
-      const refreshToken = generateRefreshToken({ id: newUser.id, email: newUser.email });
+      const refresh_token = generaterefresh_token({ id: newUser.id, email: newUser.email });
 
-      // Guardar el refreshToken en la base de datos
-      await newUser.update({ token: refreshToken });
+      // Guardar el refresh_token en la base de datos
+      await newUser.update({ token: refresh_token });
 
       // Guardar datos en la sesión
       req.session.user = {
           id: newUser.id,
           email: newUser.email,
-          refreshToken,
+          refresh_token,
       };
 
       return res.status(201).json({
           message: "Usuario registrado exitosamente",
-          accessToken,
+          token:accessToken,
       });
   } catch (error) {
       console.error(error);
@@ -99,17 +102,16 @@ const register = async (req, res) => {
 };
 
 const refreshAccessToken = async (req, res) => {
-  if (!req.session.user || !req.session.user.refreshToken) {
-    return res.status(401).json({
-        message: "No autorizado. Sesión no activa o token no disponible.",
-        status: 401,
-    });
-  }
-
-  try {
-      const { refreshToken } = req.session.user;
-        // Verificar si el refreshToken está en la base de datos
-        const usuario = await user.findOne({ where: { token: refreshToken } });
+    try {
+        const { token } = req.body;
+        if (!token) {
+            return res.status(401).json({
+                message: "Token de actualización no proporcionado",
+                status: 401,
+            });
+        }
+        // Verificar si el token está en la base de datos
+        const usuario = await user.findOne({ where: { token: token } });
 
         if (!usuario) {
             return res.status(401).json({
@@ -118,13 +120,13 @@ const refreshAccessToken = async (req, res) => {
             });
         }
 
-        // Verificar el refreshToken
-        const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        // Verificar el refresh_token
+        const payload = jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET);
 
         // Generar un nuevo accessToken
         const accessToken = generateAccessToken({ id: payload.id, email: payload.email });
 
-        return res.json({ accessToken });
+        return res.json({ token });
     } catch (error) {
         console.error(error);
         return res.status(401).json({
@@ -135,26 +137,27 @@ const refreshAccessToken = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  try {
-      if (req.session.user) {
-          const { refreshToken } = req.session.user;
+    try {
+      
+        const refresh_token  = req.headers.refresh_token;
 
-          // Eliminar el token de la base de datos
-          const usuario = await user.findOne({ where: { token: refreshToken } });
-          if (usuario) {
-              await usuario.update({ token: null });
-          }
+        if (!refresh_token) {
+            return res.status(400).json({ message: "Token de actualización no proporcionado" });
+        }
 
-          // Destruir la sesión
-          req.session.destroy((err) => {
-              if (err) {
-                  return res.status(500).json({ message: "Error al cerrar sesión" });
-              }
-              return res.json({ message: "Sesión cerrada" });
-          });
-      } else {
-          return res.status(400).json({ message: "No hay sesión activa" });
-      }
+        // Eliminar el token de la base de datos
+        const usuario = await user.findOne({ where: { token: refresh_token } });
+        if (usuario) {
+            await usuario.update({ token: null });
+        }
+
+        // Destruir la sesión
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ message: "Error al cerrar sesión" });
+            }
+            return res.json({ message: "Sesión cerrada" });
+        });
   } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Error en el servidor" });
@@ -162,24 +165,22 @@ const logout = async (req, res) => {
 };
 
 const getMenu = async (req, res) => {
-  if (!req.session.user || !req.session.user.refreshToken) {
-      return res.status(401).json({
-          message: "No autorizado. Sesión no activa o token no disponible.",
-          status: 401,
-      });
-  }
+    const refresh_token  = req.headers.refresh_token;
 
-  try {
-      const { refreshToken } = req.session.user;
+    if (!refresh_token) {
+        return res.status(400).json({ message: "Token de actualización no proporcionado" });
+    }
 
-      // Buscar el usuario asociado al refreshToken
-      const usuarioCompleto = await user.findOne({ where: { token: refreshToken } });
-      if (!usuarioCompleto) {
-          return res.status(401).json({ message: "Usuario no encontrado", status: 401 });
-      }
 
-      // Buscar roles y permisos del usuario
-      const usuario = await user.findByPk(usuarioCompleto.id, {
+    try {
+        // Buscar el usuario asociado al token
+        const usuarioCompleto = await user.findOne({ where: { token: refresh_token } });
+        if (!usuarioCompleto) {
+            return res.status(401).json({ message: "Usuario no encontrado", status: 401 });
+        }
+
+        // Buscar roles y permisos del usuario
+        const usuario = await user.findByPk(usuarioCompleto.id, {
           include: [
               {
                   model: rol,
@@ -248,20 +249,17 @@ const getMenu = async (req, res) => {
 
 
 const getPermisos = async (req, res) => {
-  if (!req.session.user || !req.session.user.refreshToken) {
-    return res.status(401).json({
-        message: "No autorizado. Sesión no activa o token no disponible.",
-        status: 401,
-    });
-  }
+    const refresh_token  = req.headers.refresh_token;
 
-try {
-    const { refreshToken } = req.session.user;
+    if (!refresh_token) {
+        return res.status(400).json({ message: "Token de actualización no proporcionado" });
+    }
+    try {
 
-    // Buscar el usuario asociado al refreshToken
-    const usuarioCompleto = await user.findOne({ where: { token: refreshToken } });
-    if (!usuarioCompleto) {
-        return res.status(401).json({ message: "Usuario no encontrado", status: 401 });
+        // Buscar el usuario asociado al token
+        const usuarioCompleto = await user.findOne({ where: { token: refresh_token } });
+        if (!usuarioCompleto) {
+            return res.status(401).json({ message: "Usuario no encontrado", status: 401 });
     }
 
     // Buscar roles y permisos del usuario
@@ -294,8 +292,6 @@ try {
           }
         });
       }
-      console.log(allPermissions);
-      
 
       return res.json({
         permisos: allPermissions,
@@ -307,19 +303,18 @@ try {
 };
 
 const getUsuario = async (req, res) => {
-  console.log(req.session.user)
-  if (!req.session.user) {
-      return res.status(401).json({ message: "No autorizado" });
-  }
+    const refresh_token  = req.headers.refresh_token;
+    if (!refresh_token) {
+        return res.status(400).json({ message: "Token de actualización no proporcionado" });
+    }
 
-  try {
-      const { id } = req.session.user;
-      const usuario = await user.findByPk(id);
-      return res.json(usuario);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al obtener el usuario" });
-  }
+    try {
+        const usuario = await user.findOne({ where: { token: refresh_token } });
+        return res.json(usuario);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al obtener el usuario" });
+    }
 };
 
 module.exports = { login, register, refreshAccessToken, logout, getMenu, getPermisos, getUsuario };
