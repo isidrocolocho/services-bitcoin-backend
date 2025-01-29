@@ -27,7 +27,7 @@ const app = express();
 
 // Configuración de la sesión
 app.use(session({
-    secret: process.env.PORT, // Cambia esto por una cadena secreta segura
+    secret: process.env.SESSION_SECRET, // Cambia esto por una cadena secreta segura
     resave: false,
     saveUninitialized: false,
     store: new SequelizeStore({
